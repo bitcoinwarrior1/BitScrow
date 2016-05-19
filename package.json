@@ -1,0 +1,23 @@
+{
+  "name": "bitscrow",
+  "version": "1.0.0",
+  "description": "A simple bitcoin escrow website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/James-Sangalli/BitScrow.git"
+  },
+  "keywords": [
+    "Bitcoin",
+    "escrow"
+  ],
+  "author": "James Sangalli",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/James-Sangalli/BitScrow/issues"
+  },
+  "homepage": "https://github.com/James-Sangalli/BitScrow#readme"
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>BitScrow</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <!-- <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css"> -->
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="CSS/normalize.css">
+  <link rel="stylesheet" href="CSS/skeleton.css">
+  <link rel="stylesheet" href="CSS/main.css">
+  <!-- JS files -->
+
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<link rel="icon" type="image/png" href="https://bitcoin.org/img/icons/opengraph.png">
+
+</head>
+
+<body>
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="./js/bundle.js"></script>
+  <script src="https://www.promisejs.org/polyfills/promise-6.1.0.js"></script>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+  <div class="container">
+    <div class="header">
+      <h1>
+        BitScrow
+      </h1>
+    </div>
+    <div class="twelve columns">
+      <h6>
+        Escrow your bitcoins
+      </h6>
+    </div>
+    <div id="donations-form">
+      <div id="inputForm">
+        <p>
+          Please enter your bitcoin address
+        </p>
+        <input id="address" type ="text" name="_address">
+      </div>
+      <div id="inputForm">
+        <p>
+          Please sign with this address with the message "bitscrow" and paste below
+        </p>
+        <input id="Signature" type ="text" name="_Signature">
+      </div>
+      <div id="inputForm">
+        <p>
+          Please paste the tx id of the transaction sent to us
+        </p>
+        <input id="TxId" type ="text" name="_TxId">
+      </div>
+      <div id="inputForm">
+        <p>
+          Please enter the merchants bitcoin address
+        </p>
+        <input id="charityAddress" type ="text" name="charity_Address">
+      </div>
+      <div id="inputForm">
+        <p>
+          Please enter your email address
+        </p>
+        <input id="emailAddress" type ="text" name="email_Address">
+      </div>
+      <button id="button" type="button">Submit</button>
+    </div>
+  </div>
+<!-- page links -->
+<div>
+  <ul>
+    <li><a href ="/main.html"> Home</a></li>
+  </ul>
+</div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+<!--   <div id = "container">
+    <div id = "content"></div>
+  </div>
+<footer>
+  <h5>Copyright 2016 </h5>
+  </div>
+</footer> -->
+
+</html>
