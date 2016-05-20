@@ -1,81 +1,91 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var mandrill = require('node-mandrill')("QgDuw-mLtNpqRzATEXVnqA")
+'use strict';
 
-  function sendEmail ( _name, _email, _subject, _message) {
-      mandrill('/messages/send', {
-          message: {
-              to: [{email: _email , name: _name}],
-              from_email: 'j.l.sangalli@gmail.com',
-              subject: _subject,
-              text: _message
-          }
-      }, function(error, response){
-          if (error) console.log( error );
-          else console.log(response);
-      });
-  }
+var mandrill = require('node-mandrill')("QgDuw-mLtNpqRzATEXVnqA");
 
-module.exports = {sendEmail:sendEmail}
+sendEmail: (function (_name, _email, _subject, _message) {
+    mandrill('/messages/send', {
+        message: {
+            to: [{ email: _email, name: _name }],
+            from_email: 'j.l.sangalli@gmail.com',
+            subject: _subject,
+            text: _message
+        }
+    }, function (error, response) {
+        if (error) console.log(error);else console.log(response);
+    });
+});
+
+module.exports = { sendEmail: sendEmail };
 
 },{"node-mandrill":148}],2:[function(require,module,exports){
+"use strict";
+
 //modules
-var bitcoin = require('bitcoinjs-lib')
+var bitcoin = require('bitcoinjs-lib');
 //my modules
-var email = require("./email.js")
-var sendToServer = require("./sendToServer.js")
+var email = require("./email.js");
+var sendToServer = require("./sendToServer.js");
 
-$(function() {
+$(function () {
 
-  $("#button").click(clickButton)
+  $("#button").click(clickButton);
 
-  function verifySig(address,signature,message){
+  verifySig: (function (address, signature, message) {
     //Verifies the bitcoin signature to prove ownership of donor address
-    console.log("Verify")
-    return bitcoin.message.verify(address,signature,message);
-  }
+    console.log("Verify");
+    return bitcoin.message.verify(address, signature, message);
+  });
 
-
-
-  function clickButton(){
+  clickButton: (function () {
 
     var infoObj = {
-      bitcoinAddress : $("#address").val(),
-      recipientAddr : $("#recipientAddr").val(),
-      tx : $("#TxId").val(),
-      emailAddress : $("#emailAddress").val(),
-      bitcoinSignature : $("#Signature").val(),
-      recipientEmail : $("#recipientEmail").val()
-    }
+      bitcoinAddress: $("#address").val(),
+      recipientAddr: $("#recipientAddr").val(),
+      tx: $("#TxId").val(),
+      emailAddress: $("#emailAddress").val(),
+      bitcoinSignature: $("#Signature").val(),
+      recipientEmail: $("#recipientEmail").val()
+    };
 
-    if(verifySig(bitcoinAddress,bitcoinSignature, messageTest)){ //change to 'bitreturn'
-      if(bitcoinAddress || recipientAddr || tx || emailAddress || bitcoinSignature || recipientEmail){
-        console.log("verify passed")
-        sendToServer.sendToServer(infoObj)
+    if (verifySig(bitcoinAddress, bitcoinSignature, messageTest)) {
+      //change to 'bitreturn'
+      if (bitcoinAddress || recipientAddr || tx || emailAddress || bitcoinSignature || recipientEmail) {
+        console.log("verify passed");
+        sendToServer.sendToServer(infoObj);
       }
+    } else {
+      alert("invalid signature provided");
     }
-    else{
-      alert("invalid signature provided")
-    }
-  }
-
+  });
 });
 
 },{"./email.js":1,"./sendToServer.js":3,"bitcoinjs-lib":27}],3:[function(require,module,exports){
-var request = require("superagent")
-var email = require("./email.js")
+"use strict";
 
+var request = require("superagent");
+var email = require("./email.js");
 
-function sendToServer(infoObj){
-  request
-    .post("http://localhost:3000/v1/")    // post the tx to the server, let the server do the BC + DB stuff
-    .send(infoObj)
-    .end(function(err,res){    // get a response back about the result
-      if (err) throw err
-      console.log('here is the response from the server', res.text)
-    })
-  }
+var infoObj = {
+  bitcoinAddress: $("#address").val(),
+  recipientAddr: $("#recipientAddr").val(),
+  tx: $("#TxId").val(),
+  emailAddress: $("#emailAddress").val(),
+  bitcoinSignature: $("#Signature").val(),
+  recipientEmail: $("#recipientEmail").val()
+};
 
-module.exports = {sendToServer:sendToServer}
+function sendToServer(infoObj) {
+  request.post("http://localhost:3000/v1/") // post the tx to the server, let the server do the BC + DB stuff
+  .send(infoObj).end(function (err, res) {
+    // get a response back about the result
+    if (err) throw err;
+    console.log('here is the response from the server', res.text);
+    var message = "Hi, You have used BitScrow escrow service, details: " + "Your Bitcoin address: " + infoObj.email.sendEmail(infoObj.emailAddress, infoObj.emailAddress, "BitScrow Escrow Service", _message);
+  });
+}
+
+module.exports = { sendToServer: sendToServer };
 
 },{"./email.js":1,"superagent":231}],4:[function(require,module,exports){
 // Copyright 2011 Mark Cavage <mcavage@gmail.com> All rights reserved.

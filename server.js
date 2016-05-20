@@ -1,7 +1,8 @@
-var express = require('express')
-var app = express()
+let express = require('express')
+let app = express()
+let email = require("./js/email")
 
-var knex = require('knex')({
+let knex = require('knex')({
   client: 'sqlite3',
   connection: {
     filename: '../bitreturn-knex/dev.sqlite3'
@@ -9,65 +10,80 @@ var knex = require('knex')({
   useNullAsDefault: true
 })
 
-var path = require("path")
+let path = require("path")
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(__dirname));
-var fs = require("fs")
-var request = require("superagent")
+let fs = require("fs")
+let request = require("superagent")
 
-  app.post("/accept/:signature",function(req,res){
+app.post("/accept/:signature",(req,res) => {
 
-    knex("bitscrowdb").select().where("signature",req.params.signature)
-    .then(function(data){
-      if(data){
-        payout(data.body.value)
-      }
-      else{
-        console.log("Signature not found!")
-      }
-    })
-    .then(function(data){
-      res.send(data.body)
-    })
-    .catch(function(err){
-      throw err
-    })
+  knex("bitscrowdb").select().where("signature",req.params.signature)
+  .then((data) => {
+    if(data){
+      payout(data.body.value * 0.99) //1% fee
+    }
+    else{
+      console.log("Signature not found!")
+    }
+  })
+  .then((data) => {
+    res.send("payment released to the buyer! Thank you!")
+  })
+  .catch((err) => {
+    throw err
+  })
 })
 
-function payout(value){
+app.post("/recipientAccept/:userId",(req,res) => {
+  knex("bitscrowdb").select().where("id",req.params.userId)
+  .then((data) => {
+    let message = "hi, the buyer with the following bitcoin address: " + req.body.recipientAddr +
+    + "has accepted the deal and claims to have delivered on their end of the deal" +
+    + "please click here when you recieve the goods: " + "http://localhost:3000/accept/" + data.body.signature;
 
-  app.post("/payment",function(req,res){
+    email.sendEmail(data.body.emailAddress, data.body.emailAddress,"BitScrow buyer response", message)
+    res.send("The buyer has been notified that you sent the goods")
+  })
+  .catch((err){
+    if (err) throw err
+  })
+})
+
+ payout(value){
+
+  app.post("/payment",(req,res) => {
 
     res.header( 'Access-Control-Allow-Origin','*' );
-    var query = "http://localhost:3000/merchant/$guid/payment?password=$" +
+
+    let query = "http://localhost:3000/merchant/$guid/payment?password=$" +
     + req.body.password + "&to=$" + req.body.to + "&" +
-    "amount=$" + req.body.amount + "&from=$" + "&note=$" + "BitReturn tax rebate from BitReturn.com"
+    "amount=$" + value + "&from=$" + "&note=$" + "BitReturn tax rebate from BitReturn.com"
 
     res.header( 'Access-Control-Allow-Origin','*' );
 
-    request.get(query,function(err,data){
+    request.get(query,(err,data) => {
       console.log("here's the data I got from the API", data.text)
       res.send(data)
     })
   })
 }
 
-app.listen(3000, function () {
+app.listen(3000, () => {
   console.log('listening on port 3000!');
 });
 
-app.post("/v1", function(req,res){
+app.post("/v1", (req,res) => {
 
   res.header( 'Access-Control-Allow-Origin','*' );
 
-  var txId = req.body.infoObj.tx
-  var query = "https://blockchain.info/rawtx/"+txId+"/$tx_hash"
+  let txId = req.body.infoObj.tx
+  let query = "https://blockchain.info/rawtx/"+txId+"/$tx_hash"
   res.header( 'Access-Control-Allow-Origin','*' );
 
-  request.get(query, function(err, data){
+  request.get(query, (err, data) => {
     console.log("here's the data I got from the API", data.text )
-
     //save to sql
     knex('bitscrowdb').insert({
       tx: txId,
@@ -76,12 +92,12 @@ app.post("/v1", function(req,res){
       recipientAddr:data.body.infoObj.recipientAddr,
       userAddr:data.body.infoObj.bitcoinAddress,
       emailAddress:data.body.infoObj.emailAddress,
-      recipientAddr: data.body.infoObj.recipientAddress
+      recipientEmail: data.body.infoObj.recipientEmail
     })
-    .then(function(data){
+    .then((data) => {
       console.log("success!!!" ,data)
     })
-    .catch(function(err){
+    .catch((err) => {
       console.log(err)
     })
     // send to client

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "bundle": "webpack --watch",
-    "build": "browserify js/index > js/bundle",
+    "build": "browserify  js/index -o js/bundle -t [ babelify --presets [ es2015 react ] ]",
     "knex": "knex migrate:rollback && knex migrate:latest && knex seed:run"
   },
   "devDependencies": {
@@ -24,19 +24,19 @@
     "webpack": "^1.13.0",
     "browserify": "^13.0.0"
   },
-
   "dependencies": {
-    "react": "^15.0.2",
-    "react-dom": "^15.0.2",
-    "react-redux": "^4.4.5",
-    "react-router": "^2.4.0",
-    "react-router-redux": "^4.0.4",
+    "babelify": "^7.3.0",
     "bitcoinjs-lib": "^2.2.0",
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
     "knex": "^0.10.0",
     "mandrill": "^0.1.0",
     "node-mandrill": "^1.0.1",
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.4.0",
+    "react-router-redux": "^4.0.4",
     "superagent": "^1.8.3"
   }
 }
