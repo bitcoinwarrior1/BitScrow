@@ -8,6 +8,8 @@ exports.up = function(knex, Promise) {
     table.string('signature')
     table.string('recipientAddr')
     table.string('userAddr')
+    table.string('emailAddress')
+    table.string('recipientEmail')
   })
 };
 

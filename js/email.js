@@ -1,6 +1,6 @@
-var mandrill = require('node-mandrill')("QgDuw-mLtNpqRzATEXVnqA")
+let mandrill = require('node-mandrill')("QgDuw-mLtNpqRzATEXVnqA")
 
-  function sendEmail ( _name, _email, _subject, _message) {
+  sendEmail: ( _name, _email, _subject, _message) => {
       mandrill('/messages/send', {
           message: {
               to: [{email: _email , name: _name}],
@@ -8,7 +8,7 @@ var mandrill = require('node-mandrill')("QgDuw-mLtNpqRzATEXVnqA")
               subject: _subject,
               text: _message
           }
-      }, function(error, response){
+      }, (error, response) => {
           if (error) console.log( error );
           else console.log(response);
       });
