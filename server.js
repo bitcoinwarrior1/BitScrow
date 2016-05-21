@@ -22,7 +22,7 @@ app.post("/accept/:signature",(req,res) => {
   knex("bitscrowdb").select().where("signature",req.params.signature)
   .then((data) => {
     if(data){
-      payout(data.body.value * 0.99) //1% fee
+      payout(data.body.value * 0.99 , data.body.recipientAddr) //1% fee
     }
     else{
       console.log("Signature not found!")
@@ -46,19 +46,21 @@ app.post("/recipientAccept/:userId",(req,res) => {
     email.sendEmail(data.body.emailAddress, data.body.emailAddress,"BitScrow buyer response", message)
     res.send("The buyer has been notified that you sent the goods")
   })
-  .catch((err){
+  .catch((err) => {
     if (err) throw err
   })
 })
 
- payout(value){
+ payout: (value,recipientBtcAddr) => {
 
   app.post("/payment",(req,res) => {
+
+    let password = process.ENV.blockchainPassword;
 
     res.header( 'Access-Control-Allow-Origin','*' );
 
     let query = "http://localhost:3000/merchant/$guid/payment?password=$" +
-    + req.body.password + "&to=$" + req.body.to + "&" +
+    + password + "&to=$" + recipientBtcAddr + "&" +
     "amount=$" + value + "&from=$" + "&note=$" + "BitReturn tax rebate from BitReturn.com"
 
     res.header( 'Access-Control-Allow-Origin','*' );
