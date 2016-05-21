@@ -14,8 +14,6 @@ $(function() {
     return bitcoin.message.verify(address,signature,message);
   }
 
-
-
   clickButton: () => {
 
     let infoObj = {
@@ -31,6 +29,7 @@ $(function() {
       if(bitcoinAddress || recipientAddr || tx || emailAddress || bitcoinSignature || recipientEmail){
         console.log("verify passed")
         sendToServer.sendToServer(infoObj)
+        alert("Escrow set up, check your email for details!")
       }
     }
     else{
