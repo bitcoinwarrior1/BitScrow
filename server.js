@@ -39,9 +39,10 @@ app.post("/accept/:signature",(req,res) => {
 app.post("/recipientAccept/:userId",(req,res) => {
   knex("bitscrowdb").select().where("id",req.params.userId)
   .then((data) => {
-    let message = "hi, the buyer with the following bitcoin address: " + req.body.recipientAddr +
-    + "has accepted the deal and claims to have delivered on their end of the deal" +
-    + "please click here when you recieve the goods: " + "http://localhost:3000/accept/" + data.body.signature;
+    let message = "The buyer with the following bitcoin address: " + req.body.recipientAddr
+    message += "has accepted the deal and claims to have delivered on their end of the deal"
+    message += "please click here when you recieve the goods: "
+    message += "http://localhost:3000/accept/" + data.body.signature
 
     email.sendEmail(data.body.emailAddress, data.body.emailAddress,"BitScrow buyer response", message)
     res.send("The buyer has been notified that you sent the goods")
