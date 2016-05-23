@@ -2,8 +2,6 @@ p{
     color: white;
 }
 
-
-
 img{
   max-width: 100%;
 }
@@ -39,7 +37,7 @@ html, body, #container {
 
 body{
   background-position: center relative;
-  background-color: black;
+  background-color:#5E5E5E;
 }
 
 html{
@@ -130,7 +128,7 @@ li a:hover {
 /*media queries*/
 @media (max-width: 750px) {
   html,body, .mainContainer{
-    background: black;
+    background: #5E5E5E;
   }
   #donations-form2{
     max-width: 90%;
