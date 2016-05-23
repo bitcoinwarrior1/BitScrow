@@ -1,20 +1,21 @@
 //modules
 let bitcoin = require('bitcoinjs-lib')
 //my modules
-let email = require("./email.js")
 let sendToServer = require("./sendToServer.js")
 
-$(function() {
+$( () => {
 
-  $("#button").click(clickButton)
+  $("#submit").click(clickButton())
 
-  verifySig: (address,signature,message) => {
+  function verifySig (address,signature,message) {
     //Verifies the bitcoin signature to prove ownership of donor address
     console.log("Verify")
     return bitcoin.message.verify(address,signature,message);
   }
 
-  clickButton: () => {
+  function clickButton() {
+
+    console.log("Button Clicked!")
 
     let infoObj = {
       bitcoinAddress : $("#address").val(),
@@ -25,7 +26,7 @@ $(function() {
       recipientEmail : $("#recipientEmail").val()
     }
 
-    if(verifySig(bitcoinAddress,bitcoinSignature, messageTest)){ //change to 'bitreturn'
+    if(verifySig(infoObj.bitcoinAddress,infoObj.bitcoinSignature, "bitscrow")){
       if(bitcoinAddress || recipientAddr || tx || emailAddress || bitcoinSignature || recipientEmail){
         console.log("verify passed")
         sendToServer.sendToServer(infoObj)
