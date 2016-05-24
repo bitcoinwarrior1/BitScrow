@@ -2,15 +2,6 @@ var request = require("superagent")
 var email = require("./email.js")
 
 
-var infoObj = {
-  bitcoinAddress : $("#address").val(),
-  recipientAddr : $("#recipientAddr").val(),
-  tx : $("#TxId").val(),
-  emailAddress : $("#emailAddress").val(),
-  bitcoinSignature : $("#Signature").val(),
-  recipientEmail : $("#recipientEmail").val()
-}
-
 function sendToServer(infoObj){
   request
     .post("http://localhost:3000/v1/")    // post the tx to the server, let the server do the BC + DB stuff

@@ -17,7 +17,9 @@ $( () => {
 
     console.log("Button Clicked!")
 
-    let infoObj = {
+    var messageTest = 'This is an example of a signed message.'
+
+    var infoObj = {
       bitcoinAddress : $("#address").val(),
       recipientAddr : $("#recipientAddr").val(),
       tx : $("#TxId").val(),
@@ -26,8 +28,8 @@ $( () => {
       recipientEmail : $("#recipientEmail").val()
     }
 
-    if(verifySig(infoObj.bitcoinAddress,infoObj.bitcoinSignature, "bitscrow")){
-      if(bitcoinAddress || recipientAddr || tx || emailAddress || bitcoinSignature || recipientEmail){
+    if(verifySig(infoObj.bitcoinAddress,infoObj.bitcoinSignature, messageTest)){
+      if( infoObj.bitcoinAddress || infoObj.recipientAddr || infoObj.tx || infoObj.emailAddress || infoObj.bitcoinSignature || infoObj.recipientEmail){
         console.log("verify passed")
         sendToServer.sendToServer(infoObj)
         alert("Escrow set up, check your email for details!")
