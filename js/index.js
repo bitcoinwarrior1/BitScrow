@@ -19,22 +19,13 @@ $( () => {
 
     var messageTest = 'This is an example of a signed message.'
 
-    // var infoObj = {
-    //   bitcoinAddress : $("#address").val(),
-    //   recipientAddr : $("#recipientAddr").val(),
-    //   tx : $("#TxId").val(),
-    //   emailAddress : $("#emailAddress").val(),
-    //   bitcoinSignature : $("#Signature").val(),
-    //   recipientEmail : $("#recipientEmail").val()
-    // }
-
-    let infoObj = {
-      bitcoinAddress : "1HZwkjkeaoZfTSaJxDw6aKkxp45agDiEzN",
-      recipientAddr : "13wCwgttgJFYZVJmvWb6kGbg1FJNf9U9EY",
-      tx : "a52236a2a48cf44d0168fe9ee1eadf1c44cf32491c51669d3c098cb062adb7b52016",
-      emailAddress : "j.l.sangalli@gmail.com",
-      bitcoinSignature : "HJLQlDWLyb1Ef8bQKEISzFbDAKctIlaqOpGbrk3YVtRsjmC61lpE5ErkPRUFtDKtx98vHFGUWlFhsh3DiW6N0rE",
-      recipientEmail : "btcverifiednz@gmail.com"
+    var infoObj = {
+      bitcoinAddress : $("#address").val(),
+      recipientAddr : $("#recipientAddr").val(),
+      tx : $("#TxId").val(),
+      emailAddress : $("#emailAddress").val(),
+      bitcoinSignature : $("#Signature").val(),
+      recipientEmail : $("#recipientEmail").val()
     }
 
     if(verifySig(infoObj.bitcoinAddress,infoObj.bitcoinSignature, messageTest)){
