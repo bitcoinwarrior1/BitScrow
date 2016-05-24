@@ -1,11 +1,12 @@
 var express = require('express')
 var app = express()
 var email = require("./js/email")
+var bodyParser = require('body-parser')
 
 var knex = require('knex')({
   client: 'sqlite3',
   connection: {
-    filename: '../bitreturn-knex/dev.sqlite3'
+    filename: './bitscrow-knex/dev.sqlite3'
   },
   useNullAsDefault: true
 })
@@ -16,6 +17,8 @@ app.set('view engine', 'hbs');
 app.use(express.static(__dirname));
 var fs = require("fs")
 var request = require("superagent")
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.post("/accept/:signature",(req,res) => {
 
@@ -77,11 +80,11 @@ app.listen(3000, () => {
   console.log('listening on port 3000!');
 });
 
-app.post("/v1", (req,res) => {
+app.post("/v1/", (req,res) => {
 
   res.header( 'Access-Control-Allow-Origin','*' );
-
-  var txId = req.body.infoObj.tx
+  console.log(req.body)
+  var txId = req.body.tx
   var query = "https://blockchain.info/rawtx/"+txId+"/$tx_hash"
   res.header( 'Access-Control-Allow-Origin','*' );
 
@@ -91,11 +94,11 @@ app.post("/v1", (req,res) => {
     knex('bitscrowdb').insert({
       tx: txId,
       value:data.body.out[0].value,
-      signature:req.body.infoObj.bitcoinSignature,
-      recipientAddr:data.body.infoObj.recipientAddr,
-      userAddr:data.body.infoObj.bitcoinAddress,
-      emailAddress:data.body.infoObj.emailAddress,
-      recipientEmail: data.body.infoObj.recipientEmail
+      signature:req.body.bitcoinSignature,
+      recipientAddr:req.body.recipientAddr,
+      userAddr:data.body.bitcoinAddress,
+      emailAddress:data.body.emailAddress,
+      recipientEmail: data.body.recipientEmail
     })
     .then((data) => {
       console.log("success!!!" ,data)
