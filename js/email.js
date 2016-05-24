@@ -4,7 +4,7 @@ var mandrill = require('node-mandrill')("QgDuw-mLtNpqRzATEXVnqA")
       mandrill('/messages/send', {
           message: {
               to: [{email: _email , name: _name}],
-              from_email: 'j.l.sangalli@gmail.com',
+              from_email: 'btcverifiednz@gmail.com',
               subject: _subject,
               text: _message
           }
