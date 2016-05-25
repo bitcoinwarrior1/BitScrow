@@ -25,7 +25,7 @@ app.post("/accept/:signature",(req,res) => {
   knex("bitscrowdb").select().where("signature",req.params.signature)
   .then((data) => {
     if(data){
-      payout(data.body.value * 0.99 , data.body.recipientAddr) //1% fee
+      payout(data.body.value, data.body.recipientAddr) 
     }
     else{
       console.log("Signature not found!")
@@ -65,11 +65,10 @@ app.post("/recipientAccept/:userId",(req,res) => {
 
     var query = "http://localhost:3000/merchant/$guid/payment?password=$" +
     + password + "&to=$" + recipientBtcAddr + "&" +
-    "amount=$" + value + "&from=$" + "&note=$" + "BitReturn tax rebate from BitReturn.com"
-
-    res.header( 'Access-Control-Allow-Origin','*' );
+    "amount=$" + value + "&from=$" + "&note=$" + "BitScrow escrow payment"
 
     request.get(query,(err,data) => {
+      res.header( 'Access-Control-Allow-Origin','*' );
       console.log("here's the data I got from the API", data.text)
       res.send(data)
     })
