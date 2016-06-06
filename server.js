@@ -56,12 +56,14 @@ app.post("/recipientAccept/:userId",(req,res) => {
 })
 
  function payout (value,recipientBtcAddr) {
+   
+  var password = "password"; //get from env file
 
   var query = "http://localhost:3000/merchant/$guid/payment?password=$" +
   + password + "&to=$" + recipientBtcAddr + "&" +
   "amount=$" + value + "&from=$" + "&note=$" + "BitScrow escrow payment"
 
-  request.get(query,(err,data) => {
+  app.post(query,(err,data) => {
     res.header( 'Access-Control-Allow-Origin','*' );
     console.log("here's the data I got from the API", data.text)
     res.send(data)
