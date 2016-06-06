@@ -55,23 +55,16 @@ app.post("/recipientAccept/:userId",(req,res) => {
   })
 })
 
- payout: (value,recipientBtcAddr) => {
+ function payout (value,recipientBtcAddr) {
 
-  app.post("/payment",(req,res) => {
+  var query = "http://localhost:3000/merchant/$guid/payment?password=$" +
+  + password + "&to=$" + recipientBtcAddr + "&" +
+  "amount=$" + value + "&from=$" + "&note=$" + "BitScrow escrow payment"
 
-    var password = process.ENV.blockchainPassword;
-
+  request.get(query,(err,data) => {
     res.header( 'Access-Control-Allow-Origin','*' );
-
-    var query = "http://localhost:3000/merchant/$guid/payment?password=$" +
-    + password + "&to=$" + recipientBtcAddr + "&" +
-    "amount=$" + value + "&from=$" + "&note=$" + "BitScrow escrow payment"
-
-    request.get(query,(err,data) => {
-      res.header( 'Access-Control-Allow-Origin','*' );
-      console.log("here's the data I got from the API", data.text)
-      res.send(data)
-    })
+    console.log("here's the data I got from the API", data.text)
+    res.send(data)
   })
 }
 
